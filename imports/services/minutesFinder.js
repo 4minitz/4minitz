@@ -61,7 +61,9 @@ export class MinutesFinder {
 
   static lastFinalizedMinutesOfMeetingSeries(meetingSeries) {
     const lastMinute = this.lastMinutesOfMeetingSeries(meetingSeries);
-    return lastMinute.isFinalized ? lastMinute : this.secondLastMinutesOfMeetingSeries(meetingSeries);
+    return lastMinute.isFinalized
+      ? lastMinute
+      : this.secondLastMinutesOfMeetingSeries(meetingSeries);
   }
 
   static secondLastMinutesOfMeetingSeries(meetingSeries) {

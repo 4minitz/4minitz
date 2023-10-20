@@ -40,7 +40,7 @@ Template.broadcastMessageDialog.helpers({
           { dismissForUserIDs: { $nin: [Meteor.userId()] } },
         ],
       },
-      { sort: { createdAt: -1 } }
+      { sort: { createdAt: -1 } },
     );
   },
 

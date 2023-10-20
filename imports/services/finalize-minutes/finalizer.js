@@ -82,8 +82,8 @@ function compileFinalizedInfo(minutes) {
   const finalizedTimestamp = formatDateISO8601Time(minutes.finalizedAt);
   const finalizedString = minutes.isFinalized ? "Finalized" : "Unfinalized";
   const version = minutes.finalizedVersion
-  ? `Version ${minutes.finalizedVersion}. `
-  : "";
+    ? `Version ${minutes.finalizedVersion}. `
+    : "";
 
   return `${version}${finalizedString} on ${finalizedTimestamp} by ${minutes.finalizedBy}`;
 }

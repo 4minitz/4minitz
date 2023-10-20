@@ -141,7 +141,7 @@ function removeIsEditedDetail(
   topicId,
   infoItemId,
   detailIdx,
-  ignoreLock
+  ignoreLock,
 ) {
   let unset = false;
   const topic = new Topic(minutesId, topicId);
@@ -196,7 +196,7 @@ Meteor.methods({
     minutesId,
     topicId,
     infoItemId,
-    ignoreLock
+    ignoreLock,
   ) {
     removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock);
   },
@@ -210,7 +210,7 @@ Meteor.methods({
     topicId,
     infoItemId,
     detailIdx,
-    ignoreLock
+    ignoreLock,
   ) {
     removeIsEditedDetail(minutesId, topicId, infoItemId, detailIdx, ignoreLock);
   },
@@ -223,7 +223,7 @@ export class IsEditedService {
       Meteor.callPromise(
         "workflow.removeIsEditedMeetingSerie",
         meetingSerie._id,
-        false
+        false,
       );
     });
 
@@ -250,7 +250,7 @@ export class IsEditedService {
       "workflow.removeIsEditedTopic",
       minutesId,
       topicId,
-      ignoreLock
+      ignoreLock,
     );
   }
 
@@ -259,7 +259,7 @@ export class IsEditedService {
       "workflow.setIsEditedInfoItem",
       minutesId,
       topicId,
-      infoItemId
+      infoItemId,
     );
   }
 
@@ -269,7 +269,7 @@ export class IsEditedService {
       minutesId,
       topicId,
       infoItemId,
-      ignoreLock
+      ignoreLock,
     );
   }
 
@@ -279,7 +279,7 @@ export class IsEditedService {
       minutesId,
       topicId,
       infoItemId,
-      detailIdx
+      detailIdx,
     );
   }
 
@@ -288,7 +288,7 @@ export class IsEditedService {
     topicId,
     infoItemId,
     detailIdx,
-    ignoreLock
+    ignoreLock,
   ) {
     Meteor.callPromise(
       "workflow.removeIsEditedDetail",
@@ -296,7 +296,7 @@ export class IsEditedService {
       topicId,
       infoItemId,
       detailIdx,
-      ignoreLock
+      ignoreLock,
     );
   }
 }

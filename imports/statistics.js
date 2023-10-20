@@ -36,14 +36,14 @@ export const Statistics = SchemaClass.create({
       const numberOfMinutes = MinutesSchema.find().count();
       const numberOfUsers = Meteor.users.find().count();
       const numberOfActiveUsers = Meteor.users
-      .find({
-        $or: [{ isInactive: { $exists: false } }, { isInactive: false }],
-      })
-      .count();
+        .find({
+          $or: [{ isInactive: { $exists: false } }, { isInactive: false }],
+        })
+        .count();
       const numberOfAttachments = Attachment.countAll();
       const numberOfAttachmentMB = `${Math.floor(
-          Attachment.countAllBytes() / 1024 / 1024,
-        )} MB`;
+        Attachment.countAllBytes() / 1024 / 1024,
+      )} MB`;
 
       StatisticsCollection.remove({});
 
@@ -95,10 +95,12 @@ const statisticsDetails = (minMinutesCount = 2, minTopicsCount = 5) => {
 
   MS.forEach((ms) => {
     if (
-      !(ms.minutes &&
-    ms.minutes.length >= minMinutesCount &&
-    ms.topics &&
-    ms.topics.length >= minTopicsCount)
+      !(
+        ms.minutes &&
+        ms.minutes.length >= minMinutesCount &&
+        ms.topics &&
+        ms.topics.length >= minTopicsCount
+      )
     ) {
       return;
     }

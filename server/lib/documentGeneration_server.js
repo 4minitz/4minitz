@@ -27,7 +27,7 @@ createDocumentStoragePath = (fileObj) => {
     if (err) {
       console.error(
         "ERROR: Could not create path for protocol storage: " +
-          absoluteDocumentPath
+          absoluteDocumentPath,
       );
     }
   });
@@ -65,13 +65,13 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
         "Error at PDF generation: " +
           fileNameForErrorMsg +
           " not found at: " +
-          filepath
+          filepath,
       );
     }
   };
   checkFileExists(
     Meteor.settings.docGeneration.pathToWkhtmltopdf,
-    "Binary wkhtmltopdf"
+    "Binary wkhtmltopdf",
   );
 
   // Safe file as html
@@ -100,18 +100,18 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
     {
       stdio: "ignore", // surpress progess messages from pdf generation in
       // server console
-    }
+    },
   );
 
   // Safe file as pdf-a
   if (Meteor.settings.public.docGeneration.format === "pdfa") {
     checkFileExists(
       Meteor.settings.docGeneration.pathToGhostscript,
-      "Binary ghostscript"
+      "Binary ghostscript",
     );
     checkFileExists(
       Meteor.settings.docGeneration.pathToPDFADefinitionFile,
-      "PDFA definition file"
+      "PDFA definition file",
     );
 
     exePath = `"${Meteor.settings.docGeneration.pathToGhostscript}"`;
@@ -140,12 +140,12 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
         {
           stdio: "ignore", // surpress progess messages from pdf generation
           // in server console
-        }
+        },
       );
     } catch (error) {
       throw new Meteor.Error(
         "runtime-error",
-        "Unknown error at PDF generation. Could not execute ghostscript properly."
+        "Unknown error at PDF generation. Could not execute ghostscript properly.",
       );
     }
 
@@ -174,11 +174,11 @@ if (Meteor.settings.docGeneration?.enabled) {
       console.error("*** ERROR*** No write access to Document Storage Path");
       console.error("             Documents can not be saved.");
       console.error(
-        "             Ensure write access to path specified in your settings.json"
+        "             Ensure write access to path specified in your settings.json",
       );
       console.error(
         "             Current Document Storage Path setting is: " +
-          absoluteTargetPath
+          absoluteTargetPath,
       );
       // Now switch off feature!
       Meteor.settings.docGeneration.enabled = false;
@@ -197,32 +197,32 @@ if (Meteor.settings.docGeneration?.enabled) {
     }
     checkCondition(
       Meteor.settings.docGeneration.pathToWkhtmltopdf,
-      "No path for wkhtmltopdf is assigned within settings.json."
+      "No path for wkhtmltopdf is assigned within settings.json.",
     );
     checkFileExists(
       Meteor.settings.docGeneration.pathToWkhtmltopdf,
-      "binary for wkhtmltopdf"
+      "binary for wkhtmltopdf",
     );
     if (Meteor.settings.docGeneration.format !== "pdfa") {
       return;
     }
     checkCondition(
       Meteor.settings.docGeneration.pathToGhostscript,
-      "No path for ghostscript is assigned within settings.json."
+      "No path for ghostscript is assigned within settings.json.",
     );
     checkFileExists(
       Meteor.settings.docGeneration.pathToGhostscript,
-      "binary for ghostscript"
+      "binary for ghostscript",
     );
     checkCondition(
       Meteor.settings.docGeneration.pathToPDFADefinitionFile &&
         (Meteor.settings.docGeneration.ICCProfileType === "rgb" ||
           Meteor.settings.docGeneration.ICCProfileType === "cmyk"),
-      "Both a path to a pdfa definition file and a valid ICC profile type have to be assigned in the settings.json"
+      "Both a path to a pdfa definition file and a valid ICC profile type have to be assigned in the settings.json",
     );
     checkFileExists(
       Meteor.settings.docGeneration.pathToPDFADefinitionFile,
-      "PDFA definition file"
+      "PDFA definition file",
     );
   });
 } else {
@@ -241,6 +241,6 @@ const checkCondition = (condition, errorMessage) => {
 const checkFileExists = (filepath, filename) => {
   checkCondition(
     fs.existsSync(filepath),
-    `Missing ${filename} at path: ${filepath}`
+    `Missing ${filename} at path: ${filepath}`,
   );
 };

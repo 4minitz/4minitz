@@ -7,7 +7,7 @@ module.exports = {
       const label = Label.findLabelsContainingSubstring(
         parentMeetingSeriesId,
         labelName,
-        caseSensitive
+        caseSensitive,
       );
       if (label !== null) {
         return label.map((label) => {

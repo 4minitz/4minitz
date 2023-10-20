@@ -5,7 +5,7 @@ import $ from "jquery";
 export const configureSelect2Labels = (
   minutesId,
   elementSelector,
-  editItem
+  editItem,
 ) => {
   const aMin = new Minutes(minutesId);
   const aSeries = aMin.parentMeetingSeries();

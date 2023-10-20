@@ -37,9 +37,11 @@ export class RoleChangeMailHandler {
 
     const userName = User.PROFILENAMEWITHFALLBACK(this._user);
 
-    this._oldRole = this._oldRole == null ? "None" : userroles.role2Text(this._oldRole);
+    this._oldRole =
+      this._oldRole == null ? "None" : userroles.role2Text(this._oldRole);
 
-    this._newRole = this._newRole == null ? "None" : userroles.role2Text(this._newRole);
+    this._newRole =
+      this._newRole == null ? "None" : userroles.role2Text(this._newRole);
 
     // generate mail
     if (this._user.emails && this._user.emails.length > 0) {

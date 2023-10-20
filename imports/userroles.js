@@ -11,7 +11,9 @@ export class UserRoles {
   constructor(userId /* may be null */, userCollection /* may be null */) {
     this._userId = userId ? userId : Meteor.userId();
 
-    const currentUser = userCollection ? userCollection.findOne(this._userId) : Meteor.users.findOne(this._userId);
+    const currentUser = userCollection
+      ? userCollection.findOne(this._userId)
+      : Meteor.users.findOne(this._userId);
 
     if (!currentUser) {
       FlowRouter.go("/");

@@ -28,7 +28,7 @@ if (Meteor.isServer) {
         });
       }
       return this.ready();
-    }
+    },
   );
 }
 
@@ -46,11 +46,11 @@ Meteor.methods({
     if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
       if (!GlobalSettings.isEMailDeliveryEnabled()) {
         console.log(
-          "Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in your settings.json file"
+          "Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in your settings.json file",
         );
         throw new Meteor.Error(
           "Cannot send agenda",
-          "Email delivery is not enabled in your 4minitz installation."
+          "Email delivery is not enabled in your 4minitz installation.",
         );
       }
 
@@ -62,13 +62,13 @@ Meteor.methods({
             : GlobalSettings.getDefaultEmailSenderAddress();
         const sendAgendaMailHandler = new SendAgendaMailHandler(
           senderEmail,
-          aMin
+          aMin,
         );
         sendAgendaMailHandler.send();
 
         MinutesSchema.update(
           { _id: aMin._id, isFinalized: false },
-          { $set: { agendaSentAt: new Date() } }
+          { $set: { agendaSentAt: new Date() } },
         );
 
         return sendAgendaMailHandler.getCountRecipients();
@@ -76,7 +76,7 @@ Meteor.methods({
     } else {
       throw new Meteor.Error(
         "Cannot send agenda",
-        "You are not moderator of the parent meeting series."
+        "You are not moderator of the parent meeting series.",
       );
     }
   },
@@ -120,12 +120,12 @@ Meteor.methods({
 
       return MinutesSchema.update(
         { _id: id, isFinalized: false },
-        { $set: doc }
+        { $set: doc },
       );
     }
     throw new Meteor.Error(
       "Cannot update minutes",
-      "You are not moderator of the parent meeting series."
+      "You are not moderator of the parent meeting series.",
     );
   },
 
@@ -147,7 +147,7 @@ Meteor.methods({
     if (!Meteor.userId()) {
       throw new Meteor.Error(
         "not-authorized",
-        "You are not authorized to perform this action."
+        "You are not authorized to perform this action.",
       );
     }
 
@@ -174,12 +174,12 @@ Meteor.methods({
 
       return MinutesSchema.update(
         { _id: aMin._id, isFinalized: false, "topics._id": topicId },
-        { $set: modifierDoc }
+        { $set: modifierDoc },
       );
     }
     throw new Meteor.Error(
       "Cannot update minutes",
-      "You are not moderator of the parent meeting series."
+      "You are not moderator of the parent meeting series.",
     );
   },
 
@@ -191,7 +191,7 @@ Meteor.methods({
     if (!Meteor.userId()) {
       throw new Meteor.Error(
         "not-authorized",
-        "You are not authorized to perform this action."
+        "You are not authorized to perform this action.",
       );
     }
 
@@ -225,12 +225,12 @@ Meteor.methods({
 
       return MinutesSchema.update(
         { _id: minutesId, isFinalized: false },
-        { $push: topicModifier }
+        { $push: topicModifier },
       );
     }
     throw new Meteor.Error(
       "Cannot update minutes",
-      "You are not moderator of the parent meeting series."
+      "You are not moderator of the parent meeting series.",
     );
   },
 
@@ -254,7 +254,7 @@ Meteor.methods({
     if (!userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
       throw new Meteor.Error(
         "Cannot delete topic",
-        "You are not moderator of the parent meeting series."
+        "You are not moderator of the parent meeting series.",
       );
     }
 
@@ -264,7 +264,7 @@ Meteor.methods({
     if (topic.createdInMinute !== aMin._id) {
       throw new Meteor.Error(
         "Cannot delete topic",
-        "The topic was not created in this minutes."
+        "The topic was not created in this minutes.",
       );
     }
 
@@ -275,7 +275,7 @@ Meteor.methods({
         $pull: {
           topics: { _id: topicId },
         },
-      }
+      },
     );
   },
 
@@ -285,17 +285,17 @@ Meteor.methods({
     if (userRoles.isModeratorOf(parentSeriesID)) {
       Minutes.updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(
         parentSeriesID,
-        visibleForArray
+        visibleForArray,
       );
       TopicSchema.update(
         { parentId: parentSeriesID },
         { $set: { visibleFor: visibleForArray } },
-        { multi: true }
+        { multi: true },
       );
     } else {
       throw new Meteor.Error(
         "Cannot sync visibility of minutes",
-        "You are not moderator of the parent meeting series."
+        "You are not moderator of the parent meeting series.",
       );
     }
   },
@@ -346,7 +346,7 @@ Meteor.methods({
       return Minutes.formatResponsibles(
         otherUser,
         "username",
-        GlobalSettings.isTrustedIntranetInstallation()
+        GlobalSettings.isTrustedIntranetInstallation(),
       );
     });
     return {

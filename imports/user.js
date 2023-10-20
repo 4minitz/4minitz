@@ -22,7 +22,9 @@ export class User {
 
   static PROFILENAMEWITHFALLBACK(userObject) {
     if (userObject) {
-      return userObject.profile?.name ? userObject.profile.name : userObject.username;
+      return userObject.profile?.name
+        ? userObject.profile.name
+        : userObject.username;
     } else {
       return `Unknown (${userObject._id}` ? userObject._id : `${userObject})`;
     }

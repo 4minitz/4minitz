@@ -30,7 +30,7 @@ Template.tabTopics.onCreated(function () {
   this.parser = new QueryParser(
     TOPIC_KEYWORDS,
     createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId),
-    createUserIdsReceiver
+    createUserIdsReceiver,
   );
 });
 
@@ -45,7 +45,7 @@ Template.tabTopics.helpers({
       Template.instance().topicFilterHandler,
       FILTERS,
       TOPIC_KEYWORDS,
-      "Topic-Filter"
+      "Topic-Filter",
     );
   },
 
@@ -60,7 +60,7 @@ Template.tabTopics.helpers({
       topics,
       null,
       true,
-      tmpl.data.parentMeetingSeriesId
+      tmpl.data.parentMeetingSeriesId,
     );
   },
 });

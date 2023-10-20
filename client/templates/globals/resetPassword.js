@@ -18,7 +18,7 @@ Template.resetPassword.events({
         new FlashMessage(
           i18n.__("FlashMessages.ok"),
           i18n.__("FlashMessages.passwordResetOK"),
-          "alert-success"
+          "alert-success",
         ).show();
       }
     });

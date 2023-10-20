@@ -74,7 +74,7 @@ Template.minutesAttachments.helpers({
     const min = new Minutes(_minutesID);
     const ur = new UserRoles();
     return Boolean(
-      !min.isFinalized && ur.isUploaderFor(min.parentMeetingSeriesID())
+      !min.isFinalized && ur.isUploaderFor(min.parentMeetingSeriesID()),
     );
   },
 
@@ -148,7 +148,7 @@ Template.minutesAttachments.events({
         if (error) {
           ConfirmationDialogFactory.makeErrorDialog(
             i18n.__("Minutes.Upload.error"),
-            String(error)
+            String(error),
           ).show();
         }
         template.currentUpload.set(false);
@@ -169,7 +169,7 @@ Template.minutesAttachments.events({
         Meteor.call("attachments.remove", this._id);
       },
       undefined, // use default 'Confirm delete?"
-      i18n.__("Dialog.confirmDeleteAttachment", { name: this.name })
+      i18n.__("Dialog.confirmDeleteAttachment", { name: this.name }),
     ).show();
   },
 

@@ -117,7 +117,10 @@ export class GlobalSettings {
     Meteor.settings.public.isEnd2EndTest = Meteor.settings.isEnd2EndTest;
 
     // enforce slash "/" at the end
-    if (Meteor.settings.attachments?.storagePath && !Meteor.settings.attachments.storagePath.match(/\/$/)) {
+    if (
+      Meteor.settings.attachments?.storagePath &&
+      !Meteor.settings.attachments.storagePath.match(/\/$/)
+    ) {
       Meteor.settings.attachments.storagePath = `${Meteor.settings.attachments.storagePath}/`;
     }
 
@@ -266,7 +269,10 @@ export class GlobalSettings {
 
   static sendVerificationEmail() {
     const mailEnabled = getSetting("email.enableMailDelivery", false);
-    const sendVerificationEmail = getSetting("email.sendVerificationEmail", false);
+    const sendVerificationEmail = getSetting(
+      "email.sendVerificationEmail",
+      false,
+    );
     return mailEnabled && sendVerificationEmail;
   }
 
