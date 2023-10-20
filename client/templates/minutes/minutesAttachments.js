@@ -74,7 +74,7 @@ Template.minutesAttachments.helpers({
     const min = new Minutes(_minutesID);
     const ur = new UserRoles();
     return Boolean(
-      !min.isFinalized && ur.isUploaderFor(min.parentMeetingSeriesID()),
+      !min.isFinalized && ur.isUploaderFor(min.parentMeetingSeriesID())
     );
   },
 
@@ -132,31 +132,32 @@ Template.minutesAttachments.helpers({
 
 Template.minutesAttachments.events({
   "change #btnUploadAttachment": function (e, template) {
-    if (e.currentTarget.files?.[0]) {
-      // We upload only one file, in case
-      // multiple files were selected
-      const uploadFilename = e.currentTarget.files[0];
-      console.log(`Uploading... ${uploadFilename}`);
-      const minObj = new Minutes(_minutesID);
-      Attachment.uploadFile(uploadFilename, minObj, {
-        onStart: (fileUploadObj) => {
-          template.currentUpload.set(fileUploadObj);
-        },
-        onEnd: (error) => {
-          if (error) {
-            ConfirmationDialogFactory.makeErrorDialog(
-              i18n.__("Minutes.Upload.error"),
-              String(error),
-            ).show();
-          }
-          template.currentUpload.set(false);
-        },
-        onAbort: () => {
-          console.log("Upload of attachment was aborted.");
-          template.currentUpload.set(false);
-        },
-      });
+    if (!e.currentTarget.files?.[0]) {
+      return;
     }
+    // We upload only one file, in case
+    // multiple files were selected
+    const uploadFilename = e.currentTarget.files[0];
+    console.log(`Uploading... ${uploadFilename}`);
+    const minObj = new Minutes(_minutesID);
+    Attachment.uploadFile(uploadFilename, minObj, {
+      onStart: (fileUploadObj) => {
+        template.currentUpload.set(fileUploadObj);
+      },
+      onEnd: (error) => {
+        if (error) {
+          ConfirmationDialogFactory.makeErrorDialog(
+            i18n.__("Minutes.Upload.error"),
+            String(error)
+          ).show();
+        }
+        template.currentUpload.set(false);
+      },
+      onAbort: () => {
+        console.log("Upload of attachment was aborted.");
+        template.currentUpload.set(false);
+      },
+    });
   },
 
   "click #btnDelAttachment": function (evt) {
@@ -168,7 +169,7 @@ Template.minutesAttachments.events({
         Meteor.call("attachments.remove", this._id);
       },
       undefined, // use default 'Confirm delete?"
-      i18n.__("Dialog.confirmDeleteAttachment", { name: this.name }),
+      i18n.__("Dialog.confirmDeleteAttachment", { name: this.name })
     ).show();
   },
 

@@ -2,12 +2,12 @@ import { Meteor } from "meteor/meteor";
 import { Label } from "/imports/label";
 
 module.exports = {
-  createLabelIdsReceiver: function (parentMeetingSeriesId) {
+  createLabelIdsReceiver(parentMeetingSeriesId) {
     return function getLabelIdsByName(labelName, caseSensitive) {
       const label = Label.findLabelsContainingSubstring(
         parentMeetingSeriesId,
         labelName,
-        caseSensitive,
+        caseSensitive
       );
       if (label !== null) {
         return label.map((label) => {
@@ -18,7 +18,7 @@ module.exports = {
     };
   },
 
-  createUserIdsReceiver: function getUserIdsByName(userName) {
+  createUserIdsReceiver(userName) {
     const users =
       userName === "me"
         ? [Meteor.user()]

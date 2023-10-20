@@ -33,11 +33,9 @@ const MATCH_CASE = "do:match-case ";
 const MATCH_CASE_RE = new RegExp(`${MATCH_CASE}*`, "g");
 
 const toggleMatchCase = (enable, input) => {
-  if (enable) {
-    input.value = MATCH_CASE + input.value;
-  } else {
-    input.value = input.value.replace(MATCH_CASE_RE, "");
-  }
+  input.value = enable
+    ? MATCH_CASE + input.value
+    : input.value.replace(MATCH_CASE_RE, "");
 };
 
 const performSearch = (query, tmpl) => {
@@ -65,7 +63,7 @@ const performSearch = (query, tmpl) => {
 
 const appendSpace = (string) => {
   if (string !== "") {
-    string = `${string.trim()} `;
+    return `${string.trim()} `;
   }
   return string;
 };
@@ -92,11 +90,11 @@ Template.filterControl.onRendered(() => {
 });
 
 Template.filterControl.helpers({
-  hasFilters: function () {
+  hasFilters() {
     return Boolean(Template.instance().data.config.filters);
   },
 
-  filters: function () {
+  filters() {
     return Template.instance().data.config.filters;
   },
 });
@@ -138,7 +136,7 @@ Template.filterControl.events({
         return object;
       });
     ConfirmationDialogFactory.makeInfoDialog(
-      `Usage for ${tmpl.data.config.filterName}`,
+      `Usage for ${tmpl.data.config.filterName}`
     )
       .setTemplate("filterUsage", {
         keywords: keywordArray,

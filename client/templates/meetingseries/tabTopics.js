@@ -30,12 +30,12 @@ Template.tabTopics.onCreated(function () {
   this.parser = new QueryParser(
     TOPIC_KEYWORDS,
     createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId),
-    createUserIdsReceiver,
+    createUserIdsReceiver
   );
 });
 
 Template.tabTopics.helpers({
-  getTopicFilterConfig: function () {
+  getTopicFilterConfig() {
     const FILTERS = [
       { text: i18n.__("Topic.Filter.uncompleted"), value: "is:uncompleted" },
       { text: i18n.__("Topic.Filter.completed"), value: "is:completed" },
@@ -45,11 +45,11 @@ Template.tabTopics.helpers({
       Template.instance().topicFilterHandler,
       FILTERS,
       TOPIC_KEYWORDS,
-      "Topic-Filter",
+      "Topic-Filter"
     );
   },
 
-  topicViewData: function () {
+  topicViewData() {
     const tmpl = Template.instance();
     const query = tmpl.topicFilterQuery.get();
     tmpl.parser.reset();
@@ -60,7 +60,7 @@ Template.tabTopics.helpers({
       topics,
       null,
       true,
-      tmpl.data.parentMeetingSeriesId,
+      tmpl.data.parentMeetingSeriesId
     );
   },
 });
