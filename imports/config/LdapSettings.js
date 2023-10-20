@@ -105,7 +105,6 @@ export class LdapSettings {
     const propertyMap = LdapSettings.propertyMap();
     if (!propertyMap.username || !propertyMap.email) {
       disableLdap();
-      return;
     }
   }
 
