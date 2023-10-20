@@ -9,8 +9,9 @@ const isKeyword = function (token) {
 };
 
 const getKeyWordFromToken = function (token, queryUserIdByName) {
-  let key, value, ids;
-  ids = [];
+  let key;
+  let value;
+  let ids = [];
   if (this.USER && token.startsWith(this.USER.key)) {
     key = this.USER.key;
     value = token.substr(1);

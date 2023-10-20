@@ -65,8 +65,8 @@ export class LdapSettings {
         Meteor.settings.ldap = Object.assign({}, defaultLdapSettings, Meteor.settings.ldap);
 
         // backwards compatibility: support searchDn property
-        const propertyMap = Object.assign({}, defaultPropertyMap),
-            searchDn = get('searchDn');
+        const propertyMap = Object.assign({}, defaultPropertyMap);
+        const searchDn = get('searchDn');
         if (!get('propertyMap') && searchDn) {
             propertyMap.username = searchDn;
         }

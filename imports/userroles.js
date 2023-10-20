@@ -9,18 +9,9 @@ import { MeetingSeries } from "./meetingseries";
 
 export class UserRoles {
   constructor(userId /* may be null */, userCollection /* may be null */) {
-    if (userId) {
-      this._userId = userId;
-    } else {
-      this._userId = Meteor.userId();
-    }
+    this._userId = userId ? userId : Meteor.userId();
 
-    let currentUser;
-    if (userCollection) {
-      currentUser = userCollection.findOne(this._userId);
-    } else {
-      currentUser = Meteor.users.findOne(this._userId);
-    }
+    const currentUser = userCollection ? userCollection.findOne(this._userId) : Meteor.users.findOne(this._userId);
 
     if (!currentUser) {
       FlowRouter.go("/");

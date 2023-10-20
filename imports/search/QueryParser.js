@@ -58,11 +58,7 @@ export class QueryParser {
   }
 
   isCaseSensitive() {
-    if (this.queryParsed) {
-      return this.matchCase;
-    } else {
-      return this.query.indexOf("do:match-case") !== -1;
-    }
+    return this.queryParsed ? this.matchCase : this.query.indexOf("do:match-case") !== -1;
   }
 
   hasKeyword(key, value) {

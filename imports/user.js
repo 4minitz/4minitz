@@ -22,11 +22,7 @@ export class User {
 
   static PROFILENAMEWITHFALLBACK(userObject) {
     if (userObject) {
-      if (userObject.profile?.name) {
-        return userObject.profile.name;
-      } else {
-        return userObject.username;
-      }
+      return userObject.profile?.name ? userObject.profile.name : userObject.username;
     } else {
       return `Unknown (${userObject._id}` ? userObject._id : `${userObject})`;
     }
@@ -37,11 +33,7 @@ export class User {
   }
 
   userNameWithFallback() {
-    if (this.user) {
-      return this.user.username;
-    } else {
-      return `Unknown (${this.id})`;
-    }
+    return this.user ? this.user.username : `Unknown (${this.id})`;
   }
 
   storeSetting(key, value) {

@@ -79,11 +79,11 @@ function compileFinalizedInfo(minutes) {
     return "Never finalized";
   }
 
-  const finalizedTimestamp = formatDateISO8601Time(minutes.finalizedAt),
-    finalizedString = minutes.isFinalized ? "Finalized" : "Unfinalized",
-    version = minutes.finalizedVersion
-      ? `Version ${minutes.finalizedVersion}. `
-      : "";
+  const finalizedTimestamp = formatDateISO8601Time(minutes.finalizedAt);
+  const finalizedString = minutes.isFinalized ? "Finalized" : "Unfinalized";
+  const version = minutes.finalizedVersion
+  ? `Version ${minutes.finalizedVersion}. `
+  : "";
 
   return `${version}${finalizedString} on ${finalizedTimestamp} by ${minutes.finalizedBy}`;
 }
@@ -230,9 +230,9 @@ export class Finalizer {
   }
 
   static isUnfinalizeMinutesAllowed(minutesId) {
-    const minutes = MinutesSchema.findOne(minutesId),
-      meetingSeries = MeetingSeriesSchema.findOne(minutes.meetingSeries_id),
-      lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
+    const minutes = MinutesSchema.findOne(minutesId);
+    const meetingSeries = MeetingSeriesSchema.findOne(minutes.meetingSeries_id);
+    const lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
 
     return lastMinutes && lastMinutes._id === minutesId;
   }

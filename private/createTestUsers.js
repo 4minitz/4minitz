@@ -13,14 +13,14 @@ const random = require("randomstring");
 
 class UserFactory {
   static getUser() {
-    UserFactory.counter += 1;
+    UserFactory.counter++;
     const username = `user_${UserFactory.postfix}_${UserFactory.counter}`;
     return {
       _id: random.generate({
         length: 17,
         charset: "23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz",
       }),
-      username: username,
+      username,
       createdAt: new Date(),
       isInactive: false,
       services: {

@@ -17,8 +17,8 @@ function setupEmailTemplatesForAccounts() {
       });
     },
     text(user, url) {
-      let emailAddress = user.emails[0].address,
-        urlWithoutHash = url.replace("#/", "");
+      const emailAddress = user.emails[0].address;
+      const urlWithoutHash = url.replace("#/", "");
 
       return i18n.__("Mail.VerifyEmailAddress.body", {
         emailAddress,
@@ -34,8 +34,8 @@ function setupEmailTemplatesForAccounts() {
       });
     },
     text(user, url) {
-      let emailAddress = user.emails[0].address,
-        urlWithoutHash = url.replace("#/", "");
+      const emailAddress = user.emails[0].address;
+      const urlWithoutHash = url.replace("#/", "");
 
       return i18n.__("Mail.ResetPassword.body", {
         emailAddress,

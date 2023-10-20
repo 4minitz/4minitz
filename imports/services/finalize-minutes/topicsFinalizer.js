@@ -46,9 +46,9 @@ export class TopicsFinalizer {
       topicsUpdater.removeTopicItemsCreatedInMinutes(lastMinutes._id);
       const topicsFinalizer = new TopicsFinalizer(meetingSeries, topicsUpdater);
       topicsFinalizer.mergeTopics(secondLastMinutes.topics);
-    } else {
-      topicsUpdater.removeAllTopics();
+      return;
     }
+    topicsUpdater.removeAllTopics();
   }
 
   constructor(meetingSeries, topicsUpdater) {
@@ -126,7 +126,7 @@ export class TopicsFinalizer {
             itemDoc._id,
             resistantTopicDoc.infoItems,
           );
-          return !(indexInResistantTopic === undefined);
+          return indexInResistantTopic !== undefined;
         }
         return true;
       },

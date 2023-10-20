@@ -1,11 +1,11 @@
-let loadLDAPSettings = require("../../imports/ldap/loadLDAPSettings"),
-  importUsers = require("../../imports/ldap/import"),
-  optionParser = require("node-getopt").create([
-    ["s", "settings=[ARG]", "4minitz Meteor settings file"],
-    ["m", "mongourl=[ARG]", "Mongo DB url"],
-    ["h", "help", "Display this help"],
-  ]),
-  arg = optionParser.bindHelp().parseSystem();
+const loadLDAPSettings = require("../../imports/ldap/loadLDAPSettings");
+const importUsers = require("../../imports/ldap/import");
+const optionParser = require("node-getopt").create([
+  ["s", "settings=[ARG]", "4minitz Meteor settings file"],
+  ["m", "mongourl=[ARG]", "Mongo DB url"],
+  ["h", "help", "Display this help"],
+]);
+const arg = optionParser.bindHelp().parseSystem();
 
 // check preconditions
 // we need a meteor settings file for the ldap settings and we

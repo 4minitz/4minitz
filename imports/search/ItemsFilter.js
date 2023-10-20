@@ -1,5 +1,5 @@
 import { Meteor } from "meteor/meteor";
-import { _ } from "meteor/underscore";
+import { _ } from "lodash";
 
 import { ITEM_KEYWORDS } from "./FilterKeywords";
 
@@ -18,7 +18,7 @@ export class ItemsFilter {
       parser.isCaseSensitive(),
       parser.getSearchTokens(),
       parser.getLabelTokens(),
-      parser.getFilterTokens(),
+      parser.getFilterTokens()
     );
   }
 
@@ -27,7 +27,7 @@ export class ItemsFilter {
     caseSensitive = false,
     searchTokens = [],
     labelTokens = [],
-    filterTokens = [],
+    filterTokens = []
   ) {
     if (!docs) {
       docs = [];
@@ -57,7 +57,7 @@ export class ItemsFilter {
         ? this._toUpper(
             doc.details.reduce((acc, detail) => {
               return acc + detail.text;
-            }, ""),
+            }, "")
           )
         : "";
       const due = doc.duedate ? doc.duedate : "";
@@ -121,7 +121,7 @@ export class ItemsFilter {
         default:
           throw new Meteor.Error(
             "illegal-state",
-            `Unknown filter keyword: ${filter.key}`,
+            `Unknown filter keyword: ${filter.key}`
           );
       }
     }
@@ -161,7 +161,7 @@ export class ItemsFilter {
       default:
         throw new Meteor.Error(
           "illegal-state",
-          `Unknown filter value: ${value}`,
+          `Unknown filter value: ${value}`
         );
     }
   }

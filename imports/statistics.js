@@ -32,23 +32,22 @@ export const Statistics = SchemaClass.create({
   },
   meteorMethods: {
     update() {
-      const numberOfMeetingSeries = MeetingSeriesSchema.find().count(),
-        numberOfMinutes = MinutesSchema.find().count(),
-        numberOfUsers = Meteor.users.find().count(),
-        numberOfActiveUsers = Meteor.users
-          .find({
-            $or: [{ isInactive: { $exists: false } }, { isInactive: false }],
-          })
-          .count(),
-        numberOfAttachments = Attachment.countAll(),
-        numberOfAttachmentMB = `${Math.floor(
+      const numberOfMeetingSeries = MeetingSeriesSchema.find().count();
+      const numberOfMinutes = MinutesSchema.find().count();
+      const numberOfUsers = Meteor.users.find().count();
+      const numberOfActiveUsers = Meteor.users
+      .find({
+        $or: [{ isInactive: { $exists: false } }, { isInactive: false }],
+      })
+      .count();
+      const numberOfAttachments = Attachment.countAll();
+      const numberOfAttachmentMB = `${Math.floor(
           Attachment.countAllBytes() / 1024 / 1024,
         )} MB`;
 
       StatisticsCollection.remove({});
 
-      const statistics = this;
-      statistics.result = [
+      this.result = [
         {
           description: i18n.__("About.ServerStatistics.rowNumUser"),
           value: `${numberOfUsers} (${numberOfActiveUsers})`,
@@ -71,7 +70,7 @@ export const Statistics = SchemaClass.create({
         },
       ];
 
-      statistics.save();
+      this.save();
     },
   },
 });
@@ -96,33 +95,34 @@ const statisticsDetails = (minMinutesCount = 2, minTopicsCount = 5) => {
 
   MS.forEach((ms) => {
     if (
-      ms.minutes &&
-      ms.minutes.length >= minMinutesCount &&
-      ms.topics &&
-      ms.topics.length >= minTopicsCount
+      !(ms.minutes &&
+    ms.minutes.length >= minMinutesCount &&
+    ms.topics &&
+    ms.topics.length >= minTopicsCount)
     ) {
-      MScount++;
-      TopicCount += ms.topics.length;
-      if (ms.topics.length > TopicMax) {
-        TopicMax = ms.topics.length;
-      }
-      MinutesCount += ms.minutes.length;
-
-      ms.topics.forEach((top) => {
-        ItemCount += top.infoItems.length;
-        if (top.infoItems.length > ItemMax) {
-          ItemMax = top.infoItems.length;
-        }
-        top.infoItems.forEach((item) => {
-          if (item.details) {
-            DetailCount += item.details.length;
-            if (item.details.length > DetailMax) {
-              DetailMax = item.details.length;
-            }
-          }
-        });
-      });
+      return;
     }
+    MScount++;
+    TopicCount += ms.topics.length;
+    if (ms.topics.length > TopicMax) {
+      TopicMax = ms.topics.length;
+    }
+    MinutesCount += ms.minutes.length;
+
+    ms.topics.forEach((top) => {
+      ItemCount += top.infoItems.length;
+      if (top.infoItems.length > ItemMax) {
+        ItemMax = top.infoItems.length;
+      }
+      top.infoItems.forEach((item) => {
+        if (item.details) {
+          DetailCount += item.details.length;
+          if (item.details.length > DetailMax) {
+            DetailMax = item.details.length;
+          }
+        }
+      });
+    });
   });
   console.log("# MeetingSeries: ", MScount);
   console.log("# Minutes      : ", MinutesCount);

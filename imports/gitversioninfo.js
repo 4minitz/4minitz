@@ -27,16 +27,12 @@ export const VERSION_INFO = {
 };
 
 Meteor.methods({
-  gitVersionInfo: function () {
+  gitVersionInfo() {
     // #Security: not logged in users should not know version of server
-    if (this.userId) {
-      return VERSION_INFO;
-    } else {
-      return undefined;
-    }
+    return this.userId ? VERSION_INFO : undefined;
   },
 
-  gitVersionInfoUpdate: function () {
+  gitVersionInfoUpdate() {
     try {
       const git = require("git-rev-sync");
       VERSION_INFO.commitshort = git.short();

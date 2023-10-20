@@ -37,19 +37,9 @@ export class RoleChangeMailHandler {
 
     const userName = User.PROFILENAMEWITHFALLBACK(this._user);
 
-    if (this._oldRole == null) {
-      // will be true for undefined OR null
-      this._oldRole = "None";
-    } else {
-      this._oldRole = userroles.role2Text(this._oldRole);
-    }
+    this._oldRole = this._oldRole == null ? "None" : userroles.role2Text(this._oldRole);
 
-    if (this._newRole == null) {
-      // will be true for undefined OR null
-      this._newRole = "None";
-    } else {
-      this._newRole = userroles.role2Text(this._newRole);
-    }
+    this._newRole = this._newRole == null ? "None" : userroles.role2Text(this._newRole);
 
     // generate mail
     if (this._user.emails && this._user.emails.length > 0) {
@@ -74,10 +64,10 @@ export class RoleChangeMailHandler {
       mailer.setText(i18n.__("Mail.UserRoleChange.body", mailParams));
 
       mailer.send();
-    } else {
-      console.error(
-        `Could not send eMail for role change. User has no mail address: ${this._user._id}`,
-      );
+      return;
     }
+    console.error(
+      `Could not send eMail for role change. User has no mail address: ${this._user._id}`,
+    );
   }
 }
