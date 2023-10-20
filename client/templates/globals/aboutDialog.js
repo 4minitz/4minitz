@@ -1,8 +1,8 @@
-import { GlobalSettings } from "/imports/config/GlobalSettings";
 import { Meteor } from "meteor/meteor";
+import { ReactiveDict } from "meteor/reactive-dict";
 import { ReactiveVar } from "meteor/reactive-var";
-import { Session } from "meteor/session";
 import { Template } from "meteor/templating";
+import { GlobalSettings } from "/imports/config/GlobalSettings";
 
 const showStatistics = new ReactiveVar(false);
 
@@ -10,7 +10,7 @@ Template.aboutDialog.onRendered(() => {});
 
 Template.aboutDialog.helpers({
   gitVersionInfo() {
-    return Session.get("gitVersionInfo");
+    return ReactiveDict.get("gitVersionInfo");
   },
 
   currentYear() {
@@ -43,9 +43,9 @@ Template.aboutDialog.events({
   "show.bs.modal #dlgAbout": function () {
     Meteor.call("gitVersionInfo", (error, result) => {
       if (error) {
-        console.log(`err:${error}`);
+        console.error(`err:${error}`);
       } else {
-        Session.set("gitVersionInfo", result);
+        ReactiveDict.set("gitVersionInfo", result);
       }
     });
   },
